@@ -1,26 +1,187 @@
 @import "tailwindcss";
 
+/*
+ * ────────────────────────────────────────────────────────────────
+ *  PORTFOLIO DESIGN SYSTEM — DARK THEME, AMBER/ORANGE GLOW
+ * ────────────────────────────────────────────────────────────────
+ *  FIXED FONTS (read FONTS.md / AGENTS.md before changing):
+ *    font-sans    -> DM Sans (body, 9pt optical size, weight 400)
+ *    font-display -> Funnel Display (headings/display, Light 300)
+ *    font-mono    -> IBM Plex Mono (code/labels, 400/500/700)
+ * ────────────────────────────────────────────────────────────────
+ */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Surfaces (dark-first) */
+  --background: #0a0a0b;
+  --background-soft: #0f0f11;
+  --surface: #141417;
+  --surface-2: #1b1b1f;
+  --foreground: #f5f3ee;
+  --muted: #a1a1aa;
+  --muted-2: #6b6b73;
+  --border: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.14);
+
+  /* Amber / orange accent ramp */
+  --accent: #f59e0b;
+  --accent-bright: #fbbf24;
+  --accent-deep: #ea580c;
+  --accent-soft: rgba(245, 158, 11, 0.14);
+  --accent-glow: rgba(245, 158, 11, 0.45);
+
+  /* Secondary accent — dark red */
+  --accent-2: #dc2626;
+  --accent-2-bright: #ef4444;
+  --accent-2-deep: #991b1b;
+  --accent-2-soft: rgba(220, 38, 38, 0.16);
+  --accent-2-glow: rgba(220, 38, 38, 0.55);
+
+  /* Effects */
+  --radius: 16px;
+  --shadow-glow: 0 0 60px -15px var(--accent-glow);
+  --shadow-card: 0 20px 50px -20px rgba(0, 0, 0, 0.7);
 }
 
 @theme inline {
+  /* Color tokens (expose to Tailwind utilities) */
   --color-background: var(--background);
+  --color-background-soft: var(--background-soft);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-muted: var(--muted);
+  --color-muted-2: var(--muted-2);
+  --color-border: var(--border);
+  --color-accent: var(--accent);
+  --color-accent-bright: var(--accent-bright);
+  --color-accent-deep: var(--accent-deep);
+  --color-accent-2: var(--accent-2);
+  --color-accent-2-bright: var(--accent-2-bright);
+  --color-accent-2-deep: var(--accent-2-deep);
+
+  /* Fixed font tokens */
+  --font-sans: var(--font-dm-sans);
+  --font-display: var(--font-funnel-display);
+  --font-mono: var(--font-ibm-plex-mono);
+
+  /* Radius */
+  --radius-xl: var(--radius);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  border-color: var(--border);
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+
+  /* Default body type: DM Sans, Regular, optical size 9pt */
+  font-family: var(--font-dm-sans), system-ui, sans-serif;
+  font-weight: 400;
+  font-optical-sizing: none;
+  font-variation-settings: "opsz" 9;
+
+  overflow-x: hidden;
+}
+
+/* Headings / display copy: Funnel Display Light */
+.font-display {
+  font-family: var(--font-funnel-display), system-ui, sans-serif;
+  font-weight: 300;
+}
+
+/* Monospace: IBM Plex Mono (use font-medium / font-bold for 500 / 700) */
+.font-mono {
+  font-family: var(--font-ibm-plex-mono), ui-monospace, monospace;
+}
+
+/* ── Utility layer ─────────────────────────────────────────────── */
+@layer utilities {
+  .text-gradient {
+    background: linear-gradient(
+      120deg,
+      var(--accent-bright),
+      var(--accent),
+      var(--accent-2)
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+
+  .glass {
+    background: linear-gradient(
+      to bottom right,
+      rgba(255, 255, 255, 0.05),
+      rgba(255, 255, 255, 0.02)
+    );
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--border);
+  }
+
+  .glow {
+    box-shadow: var(--shadow-glow);
+  }
+
+  .glow-red {
+    box-shadow: 0 0 60px -15px var(--accent-2-glow);
+  }
+
+  .glow-text {
+    text-shadow: 0 0 30px var(--accent-glow);
+  }
+
+  /* Subtle film grain overlay (apply to a fixed full-screen layer) */
+  .grain::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0.035;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' /%3E%3C/svg%3E");
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--background);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--surface-2);
+  border-radius: 999px;
+  border: 2px solid var(--background);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-deep);
+}
+
+::selection {
+  background: var(--accent);
+  color: #0a0a0b;
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
