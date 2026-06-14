@@ -2,8 +2,7 @@
 
 import { motion } from "motion/react";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { Marquee } from "@/components/ui/Marquee";
-import { TechIcon } from "@/components/icons/TechIcon";
+import { TechSphere } from "@/components/ui/TechSphere";
 import { fadeUp, stagger, viewportOnce } from "@/lib/motion";
 import { stats } from "@/data/services";
 import { techMarquee } from "@/data/skills";
@@ -71,44 +70,16 @@ export function About() {
         </div>
       </div>
 
-      {/* Tech stack — premium dual-row chip marquee */}
-      <div className="relative mt-20">
-        <p className="mb-6 px-6 text-center font-mono text-xs uppercase tracking-[0.3em] text-muted-2">
+      {/* Tech stack — interactive 3D globe */}
+      <div className="relative mt-16">
+        <p className="mb-2 px-6 text-center font-mono text-xs uppercase tracking-[0.3em] text-muted-2">
           Technologies I work with
         </p>
-        <div className="space-y-4 [mask-image:linear-gradient(to_right,transparent,#000_10%,#000_90%,transparent)]">
-          <Marquee speed={42}>
-            {techMarquee
-              .slice(0, Math.ceil(techMarquee.length / 2))
-              .map((t, i) => (
-                <TechChip key={`a-${t}-${i}`} name={t} />
-              ))}
-          </Marquee>
-          <Marquee speed={46} reverse>
-            {techMarquee
-              .slice(Math.ceil(techMarquee.length / 2))
-              .map((t, i) => (
-                <TechChip key={`b-${t}-${i}`} name={t} />
-              ))}
-          </Marquee>
-        </div>
+        <p className="mb-2 px-6 text-center font-mono text-[0.7rem] text-muted-2/70">
+          drag to explore
+        </p>
+        <TechSphere items={techMarquee} />
       </div>
     </section>
-  );
-}
-
-/** A single glass chip in the tech marquee. */
-function TechChip({ name }: { name: string }) {
-  return (
-    <span className="group inline-flex items-center gap-2.5 rounded-full border border-border bg-surface/40 px-5 py-2.5 backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-accent-2/50 hover:bg-surface/70 hover:shadow-[0_0_30px_-10px_var(--accent-2-glow)]">
-      <TechIcon
-        name={name}
-        size={22}
-        className="transition-transform duration-300 group-hover:scale-110"
-      />
-      <span className="whitespace-nowrap font-mono text-sm text-foreground">
-        {name}
-      </span>
-    </span>
   );
 }
