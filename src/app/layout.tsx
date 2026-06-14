@@ -1,13 +1,14 @@
 import type { Metadata, Viewport } from "next";
 import { IBM_Plex_Mono, Funnel_Display, DM_Sans } from "next/font/google";
 import "./globals.css";
-import { site } from "@/data/site";
+import { site, seoKeywords } from "@/data/site";
 import { SmoothScrollProvider } from "@/providers/SmoothScrollProvider";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { Cursor } from "@/components/ui/Cursor";
 import { ScrollProgress } from "@/components/ui/ScrollProgress";
 import { Background } from "@/components/three/Background";
+import { JsonLd } from "@/components/seo/JsonLd";
 
 /**
  * ┌─────────────────────────────────────────────────────────────────┐
@@ -52,16 +53,26 @@ export const metadata: Metadata = {
     template: `%s — ${site.name}`,
   },
   description: site.description,
-  keywords: [
-    "Full Stack Developer",
-    "Web Developer",
-    "Next.js",
-    "React",
-    "TypeScript",
-    "MD Mehedi Hasan",
-  ],
+  keywords: seoKeywords,
+  applicationName: site.name,
   authors: [{ name: site.name, url: site.url }],
   creator: site.name,
+  publisher: site.name,
+  alternates: {
+    canonical: site.url,
+  },
+  category: "technology",
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
   openGraph: {
     type: "website",
     locale: "en_US",
@@ -74,8 +85,11 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: site.title,
     description: site.description,
+    creator: "@mehedihasanbd",
   },
   icons: { icon: "/favicon.ico" },
+  // After verifying the site in Google Search Console, paste the code here:
+  // verification: { google: "your-google-site-verification-code" },
 };
 
 export const viewport: Viewport = {
@@ -95,6 +109,7 @@ export default function RootLayout({
       className={`${dmSans.variable} ${ibmPlexMono.variable} ${funnelDisplay.variable} h-full antialiased`}
     >
       <body className="grain min-h-full">
+        <JsonLd />
         <Background />
         <SmoothScrollProvider>
           <ScrollProgress />

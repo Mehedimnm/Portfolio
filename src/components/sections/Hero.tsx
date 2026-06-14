@@ -108,14 +108,76 @@ export function Hero() {
             transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
             className="relative"
           >
-            {/* Soft radial glow behind the subject */}
-            <div
+            {/* ── Gorgeous decorations around the portrait ───────────── */}
+            {/* Pulsing aura */}
+            <motion.div
               aria-hidden
-              className="absolute left-1/2 top-1/2 h-[115%] w-[115%] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-60 blur-[60px]"
+              className="absolute left-1/2 top-1/2 h-[120%] w-[120%] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-60 blur-[70px]"
               style={{
                 background:
                   "radial-gradient(circle at 50% 45%, var(--accent-glow), transparent 65%)",
               }}
+              animate={{ opacity: [0.4, 0.7, 0.4], scale: [0.95, 1.05, 0.95] }}
+              transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+            />
+
+            {/* Rotating conic halo */}
+            <motion.div
+              aria-hidden
+              className="absolute left-1/2 top-1/2 aspect-square w-[125%] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-40 blur-2xl"
+              style={{
+                background:
+                  "conic-gradient(from 0deg, var(--accent), transparent 28%, var(--accent-2) 55%, transparent 82%, var(--accent))",
+              }}
+              animate={{ rotate: 360 }}
+              transition={{ duration: 16, repeat: Infinity, ease: "linear" }}
+            />
+
+            {/* Dashed counter-rotating ring */}
+            <motion.div
+              aria-hidden
+              className="absolute left-1/2 top-1/2 aspect-square w-[112%] -translate-x-1/2 -translate-y-1/2 rounded-full border border-dashed border-accent/25"
+              animate={{ rotate: -360 }}
+              transition={{ duration: 44, repeat: Infinity, ease: "linear" }}
+            />
+
+            {/* Thin solid ring */}
+            <div
+              aria-hidden
+              className="absolute left-1/2 top-1/2 aspect-square w-[104%] -translate-x-1/2 -translate-y-1/2 rounded-full border border-white/5"
+            />
+
+            {/* Orbiting glowing dots */}
+            <motion.div
+              aria-hidden
+              className="absolute left-1/2 top-1/2 aspect-square w-[112%] -translate-x-1/2 -translate-y-1/2"
+              animate={{ rotate: 360 }}
+              transition={{ duration: 14, repeat: Infinity, ease: "linear" }}
+            >
+              <span className="absolute left-1/2 top-0 h-3 w-3 -translate-x-1/2 rounded-full bg-accent shadow-[0_0_22px_4px] shadow-accent" />
+              <span className="absolute bottom-0 left-1/2 h-2 w-2 -translate-x-1/2 rounded-full bg-accent-2 shadow-[0_0_20px_4px] shadow-accent-2" />
+            </motion.div>
+            <motion.div
+              aria-hidden
+              className="absolute left-1/2 top-1/2 aspect-square w-[112%] -translate-x-1/2 -translate-y-1/2"
+              animate={{ rotate: -360 }}
+              transition={{ duration: 22, repeat: Infinity, ease: "linear" }}
+            >
+              <span className="absolute right-0 top-1/2 h-1.5 w-1.5 -translate-y-1/2 rounded-full bg-accent-bright shadow-[0_0_16px_3px] shadow-accent" />
+            </motion.div>
+
+            {/* Floating sparkles */}
+            <motion.span
+              aria-hidden
+              className="absolute -right-2 top-10 h-1.5 w-1.5 rounded-full bg-accent/80"
+              animate={{ y: [0, -14, 0], opacity: [0.3, 1, 0.3] }}
+              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+            />
+            <motion.span
+              aria-hidden
+              className="absolute -left-3 top-1/3 h-1 w-1 rounded-full bg-accent-2/80"
+              animate={{ y: [0, 12, 0], opacity: [0.2, 0.9, 0.2] }}
+              transition={{ duration: 5.5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
             />
             {/* Portrait — background masked away so it melts into the page */}
             <Image
