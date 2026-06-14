@@ -30,7 +30,7 @@ export function Hero() {
             Available for work
           </motion.div>
 
-          <h1 className="font-display text-5xl leading-[1.05] drop-shadow-[0_0_30px_rgba(245,158,11,0.18)] sm:text-7xl lg:text-8xl">
+          <h1 className="font-display text-5xl leading-[1.04] tracking-tight sm:text-7xl lg:text-8xl">
             <AnimatedName lines={["MD Mehedi", "Hasan"]} />
           </h1>
 

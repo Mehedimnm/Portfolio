@@ -1,7 +1,7 @@
 import type { ComponentType } from "react";
 import { createElement } from "react";
 import { SiStripe, SiGreensock } from "react-icons/si";
-import { Cloud, Workflow, Cable, Boxes } from "lucide-react";
+import { Cloud, Workflow, Cable, Webhook, Search, Share2, Boxes } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 type IconComp = ComponentType<{
@@ -27,26 +27,41 @@ const TECH: Record<string, Entry> = {
   "next.js": { type: "img", src: "/tech/nextjs.svg", cls: "invert" },
   "typescript": { type: "img", src: "/tech/typescript.svg" },
   "javascript": { type: "img", src: "/tech/javascript.svg" },
+  "html5": { type: "img", src: "/tech/html5.svg" },
+  "css3": { type: "img", src: "/tech/css3.svg" },
+  "bootstrap": { type: "img", src: "/tech/bootstrap.svg" },
   "tailwind css": { type: "img", src: "/tech/tailwindcss.svg" },
   "framer motion": { type: "img", src: "/tech/framermotion.svg", cls: "invert" },
   "three.js / r3f": { type: "img", src: "/tech/threejs.svg", cls: "invert" },
   "three.js": { type: "img", src: "/tech/threejs.svg", cls: "invert" },
   "node.js": { type: "img", src: "/tech/nodejs.svg" },
+  "php": { type: "img", src: "/tech/php.svg" },
+  "python": { type: "img", src: "/tech/python.svg" },
+  "vite": { type: "img", src: "/tech/vite.svg" },
+  "vite.js": { type: "img", src: "/tech/vite.svg" },
+  "vitejs": { type: "img", src: "/tech/vite.svg" },
   "express": { type: "img", src: "/tech/express.svg", cls: "invert" },
   "nestjs": { type: "img", src: "/tech/nestjs.svg" },
   "graphql": { type: "img", src: "/tech/graphql.svg" },
   "rest & graphql": { type: "img", src: "/tech/graphql.svg" },
   "postgresql": { type: "img", src: "/tech/postgresql.svg", cls: "brightness-150 saturate-150" },
+  "mysql": { type: "img", src: "/tech/mysql.svg", cls: "brightness-125" },
+  "supabase": { type: "img", src: "/tech/supabase.svg" },
   "mongodb": { type: "img", src: "/tech/mongodb.svg" },
   "prisma": { type: "img", src: "/tech/prisma.svg", cls: "invert" },
   "redis": { type: "img", src: "/tech/redis.svg", cls: "brightness-150 saturate-150" },
   "docker": { type: "img", src: "/tech/docker.svg" },
+  "wordpress": { type: "img", src: "/tech/wordpress.svg", cls: "brightness-[1.7]" },
   "git": { type: "img", src: "/tech/git.svg" },
   "figma": { type: "img", src: "/tech/figma.svg" },
   "socket.io": { type: "img", src: "/tech/socketio.svg", cls: "invert" },
   // Not in Devicon — colored vector fallbacks
   "stripe": { type: "comp", Icon: SiStripe, color: "#635BFF" },
   "gsap": { type: "comp", Icon: SiGreensock, color: "#0AE448" },
+  // Concept skills (no brand logo) — themed vector icons
+  "rest apis": { type: "comp", Icon: Webhook, color: "#F59E0B" },
+  "seo": { type: "comp", Icon: Search, color: "#22C55E" },
+  "smo": { type: "comp", Icon: Share2, color: "#DC2626" },
   // Generic fallbacks (no official logo)
   "aws": { type: "comp", Icon: Cloud, color: "#FF9900" },
   "ci/cd": { type: "comp", Icon: Workflow, color: "#F59E0B" },

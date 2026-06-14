@@ -29,6 +29,17 @@ export const scaleIn: Variants = {
   visible: { opacity: 1, scale: 1, transition: transition.base },
 };
 
+/** Cinematic blur-to-sharp focus-in (matches the hero name treatment). */
+export const focusIn: Variants = {
+  hidden: { opacity: 0, y: 22, filter: "blur(14px)" },
+  visible: {
+    opacity: 1,
+    y: 0,
+    filter: "blur(0px)",
+    transition: { duration: 0.75, ease: ease.out },
+  },
+};
+
 /** Stagger container — children animate one after another. */
 export const stagger = (staggerChildren = 0.08, delayChildren = 0): Variants => ({
   hidden: {},

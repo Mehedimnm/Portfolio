@@ -19,7 +19,13 @@ export type SocialLink = {
 export type Skill = {
   name: string;
   level?: number; // 0–100
-  category: "Frontend" | "Backend" | "Database" | "DevOps" | "Tools";
+  category:
+    | "Frontend"
+    | "Backend"
+    | "Database"
+    | "DevOps"
+    | "CMS & Marketing"
+    | "Tools";
 };
 
 export type Project = {
