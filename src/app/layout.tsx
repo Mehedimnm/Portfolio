@@ -115,7 +115,7 @@ export default function RootLayout({
           <ScrollProgress />
           <Cursor />
           <Navbar />
-          <main className="relative z-10 flex min-h-screen flex-col">
+          <main className="relative z-10 flex min-h-svh flex-col">
             {children}
           </main>
           <Footer />

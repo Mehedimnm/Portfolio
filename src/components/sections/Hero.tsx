@@ -12,7 +12,7 @@ export function Hero() {
   return (
     <section
       id="home"
-      className="relative flex min-h-screen items-center overflow-hidden px-6 pt-28 pb-16"
+      className="relative flex min-h-svh items-center overflow-hidden px-6 pt-28 pb-16"
     >
       <div className="mx-auto grid w-full max-w-6xl items-center gap-12 md:grid-cols-[1.3fr_1fr]">
         {/* Left — copy */}
@@ -173,7 +173,7 @@ export function Hero() {
               animate={{ y: [0, 12, 0], opacity: [0.2, 0.9, 0.2] }}
               transition={{ duration: 5.5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
             />
-            {/* Portrait — round (clipped) so no square flash on load; soft edge + bottom fade */}
+            {/* Portrait — circle clip (mobile-safe) with bottom fade overlay */}
             <div className="absolute inset-0 overflow-hidden rounded-full">
               <Image
                 src={site.profileImage}
@@ -182,13 +182,14 @@ export function Hero() {
                 priority
                 sizes="(max-width: 768px) 80vw, 380px"
                 className="select-none object-cover [object-position:50%_18%]"
+              />
+              {/* fade the bottom of the circle into the page */}
+              <div
+                aria-hidden
+                className="pointer-events-none absolute inset-x-0 bottom-0 h-2/5"
                 style={{
-                  WebkitMaskImage:
-                    "radial-gradient(circle closest-side at 50% 50%, #000 94%, transparent 100%), linear-gradient(to bottom, #000 82%, transparent 99%)",
-                  maskImage:
-                    "radial-gradient(circle closest-side at 50% 50%, #000 94%, transparent 100%), linear-gradient(to bottom, #000 82%, transparent 99%)",
-                  WebkitMaskComposite: "source-in",
-                  maskComposite: "intersect",
+                  background:
+                    "linear-gradient(to bottom, transparent, var(--background))",
                 }}
               />
             </div>
