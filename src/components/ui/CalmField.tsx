@@ -53,16 +53,17 @@ type Flake = {
   a: number;
   ph: number;
   sp: number;
-  vy: number; // fall speed
-  drift: number; // sway amplitude
-  dph: number; // sway phase
-  dsp: number; // sway speed
+  vy: number;
+  drift: number;
+  dph: number;
+  dsp: number;
   c: string;
 };
 
 /**
- * Calming ambient backdrop: soft glowing orbs (bokeh) plus crisp dots that
- * drift down slowly like snow with a gentle side-to-side sway. Canvas 2D.
+ * Calming ambient backdrop: soft glowing orbs + crisp dots drifting down like
+ * snow. Tuned hard for mobile: low DPR, fewer particles, and the loop pauses
+ * when the tab is hidden or once scrolled past the hero (where it's blurred).
  */
 export function CalmField() {
   const ref = useRef<HTMLCanvasElement>(null);
@@ -76,7 +77,9 @@ export function CalmField() {
     const reduce = window.matchMedia(
       "(prefers-reduced-motion: reduce)"
     ).matches;
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const isMobile = window.matchMedia("(max-width: 768px)").matches;
+    // keep the full-screen canvas cheap on phones
+    const dpr = isMobile ? 1 : Math.min(window.devicePixelRatio || 1, 1.75);
     const sprites = COLORS.map((c) => makeSprite(c));
     const flakeColors = ["#e8f6ff", "#bfeae3", "#cfe0ff", "#ffffff"];
     let w = 0;
@@ -121,10 +124,17 @@ export function CalmField() {
     };
 
     const build = () => {
-      const orbCount = Math.max(14, Math.min(30, Math.round((w * h) / 110000)));
+      const orbDiv = isMobile ? 150000 : 110000;
+      const orbCap = isMobile ? 12 : 30;
+      const orbCount = Math.max(8, Math.min(orbCap, Math.round((w * h) / orbDiv)));
       orbs = Array.from({ length: orbCount }, () => spawnOrb(true));
 
-      const flakeCount = Math.max(70, Math.min(180, Math.round((w * h) / 8500)));
+      const flakeDiv = isMobile ? 22000 : 8500;
+      const flakeCap = isMobile ? 60 : 180;
+      const flakeCount = Math.max(
+        40,
+        Math.min(flakeCap, Math.round((w * h) / flakeDiv))
+      );
       flakes = Array.from({ length: flakeCount }, () => makeFlake(true));
     };
 
@@ -144,10 +154,14 @@ export function CalmField() {
     let raf = 0;
     let t = 0;
     const draw = () => {
+      raf = requestAnimationFrame(draw);
+
+      // Pause heavy drawing when hidden or scrolled past the hero (blurred).
+      if (document.hidden || window.scrollY > h * 0.9) return;
+
       ctx.clearRect(0, 0, w, h);
       t += 0.016;
 
-      // soft orbs (additive glow)
       ctx.globalCompositeOperation = "lighter";
       for (const p of orbs) {
         if (!reduce) {
@@ -161,7 +175,6 @@ export function CalmField() {
         ctx.drawImage(sprites[p.s], p.x - p.r, p.y - p.r, d, d);
       }
 
-      // crisp dots drifting down like snow
       ctx.globalCompositeOperation = "source-over";
       for (const f of flakes) {
         if (!reduce) {
@@ -179,11 +192,24 @@ export function CalmField() {
         ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2);
         ctx.fill();
       }
-
       ctx.globalAlpha = 1;
-      if (!reduce) raf = requestAnimationFrame(draw);
     };
-    draw();
+
+    if (reduce) {
+      // draw a single static frame, no loop
+      ctx.clearRect(0, 0, w, h);
+      ctx.globalCompositeOperation = "source-over";
+      for (const f of flakes) {
+        ctx.globalAlpha = f.a;
+        ctx.fillStyle = f.c;
+        ctx.beginPath();
+        ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.globalAlpha = 1;
+    } else {
+      raf = requestAnimationFrame(draw);
+    }
 
     return () => {
       cancelAnimationFrame(raf);

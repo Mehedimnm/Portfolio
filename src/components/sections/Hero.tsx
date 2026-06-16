@@ -109,10 +109,19 @@ export function Hero() {
             className="relative aspect-square w-full"
           >
             {/* ── Gorgeous decorations around the portrait ───────────── */}
-            {/* Pulsing aura */}
+            {/* Mobile: cheap static glow (no blur filter / no animation) */}
+            <div
+              aria-hidden
+              className="absolute left-1/2 top-1/2 h-[115%] w-[115%] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-50 sm:hidden"
+              style={{
+                background:
+                  "radial-gradient(circle at 50% 45%, var(--accent-soft), transparent 62%)",
+              }}
+            />
+            {/* Pulsing aura (desktop only — heavy blur) */}
             <motion.div
               aria-hidden
-              className="absolute left-1/2 top-1/2 h-[120%] w-[120%] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-60 blur-[70px]"
+              className="absolute left-1/2 top-1/2 hidden h-[120%] w-[120%] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-60 blur-[70px] sm:block"
               style={{
                 background:
                   "radial-gradient(circle at 50% 45%, var(--accent-glow), transparent 65%)",
@@ -121,10 +130,10 @@ export function Hero() {
               transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
             />
 
-            {/* Rotating conic halo */}
+            {/* Rotating conic halo (desktop only — heavy blur) */}
             <motion.div
               aria-hidden
-              className="absolute left-1/2 top-1/2 aspect-square w-[125%] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-40 blur-2xl"
+              className="absolute left-1/2 top-1/2 hidden aspect-square w-[125%] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-40 blur-2xl sm:block"
               style={{
                 background:
                   "conic-gradient(from 0deg, var(--accent), transparent 28%, var(--accent-2) 55%, transparent 82%, var(--accent))",
@@ -153,7 +162,7 @@ export function Hero() {
             </motion.div>
             <motion.div
               aria-hidden
-              className="absolute left-1/2 top-1/2 aspect-square w-[112%] -translate-x-1/2 -translate-y-1/2"
+              className="absolute left-1/2 top-1/2 hidden aspect-square w-[112%] -translate-x-1/2 -translate-y-1/2 sm:block"
               animate={{ rotate: -360 }}
               transition={{ duration: 22, repeat: Infinity, ease: "linear" }}
             >
