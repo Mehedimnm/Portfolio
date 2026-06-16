@@ -6,9 +6,12 @@ import { ArrowDown, ArrowUpRight, Download } from "lucide-react";
 import { site, socialLinks } from "@/data/site";
 import { AnimatedName } from "@/components/ui/AnimatedName";
 import { Button } from "@/components/ui/Button";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { ease } from "@/lib/motion";
 
 export function Hero() {
+  const isDesktop = useMediaQuery("(min-width: 768px)");
+
   return (
     <section
       id="home"
@@ -104,7 +107,7 @@ export function Hero() {
           className="relative mx-auto w-full max-w-sm"
         >
           <motion.div
-            animate={{ y: [0, -16, 0] }}
+            animate={isDesktop ? { y: [0, -16, 0] } : { y: 0 }}
             transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
             className="relative aspect-square w-full"
           >
@@ -142,18 +145,18 @@ export function Hero() {
               transition={{ duration: 16, repeat: Infinity, ease: "linear" }}
             />
 
-            {/* Dashed counter-rotating ring */}
+            {/* Dashed counter-rotating ring (desktop only) */}
             <motion.div
               aria-hidden
-              className="absolute left-1/2 top-1/2 aspect-square w-[112%] -translate-x-1/2 -translate-y-1/2 rounded-full border border-dashed border-accent/25"
+              className="absolute left-1/2 top-1/2 hidden aspect-square w-[112%] -translate-x-1/2 -translate-y-1/2 rounded-full border border-dashed border-accent/25 sm:block"
               animate={{ rotate: -360 }}
               transition={{ duration: 44, repeat: Infinity, ease: "linear" }}
             />
 
-            {/* Orbiting glowing dots */}
+            {/* Orbiting glowing dots (desktop only) */}
             <motion.div
               aria-hidden
-              className="absolute left-1/2 top-1/2 aspect-square w-[112%] -translate-x-1/2 -translate-y-1/2"
+              className="absolute left-1/2 top-1/2 hidden aspect-square w-[112%] -translate-x-1/2 -translate-y-1/2 sm:block"
               animate={{ rotate: 360 }}
               transition={{ duration: 14, repeat: Infinity, ease: "linear" }}
             >
@@ -169,16 +172,16 @@ export function Hero() {
               <span className="absolute right-0 top-1/2 h-1.5 w-1.5 -translate-y-1/2 rounded-full bg-accent-bright shadow-[0_0_16px_3px] shadow-accent" />
             </motion.div>
 
-            {/* Floating sparkles */}
+            {/* Floating sparkles (desktop only) */}
             <motion.span
               aria-hidden
-              className="absolute -right-2 top-10 h-1.5 w-1.5 rounded-full bg-accent/80"
+              className="absolute -right-2 top-10 hidden h-1.5 w-1.5 rounded-full bg-accent/80 sm:block"
               animate={{ y: [0, -14, 0], opacity: [0.3, 1, 0.3] }}
               transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
             />
             <motion.span
               aria-hidden
-              className="absolute -left-3 top-1/3 h-1 w-1 rounded-full bg-accent-2/80"
+              className="absolute -left-3 top-1/3 hidden h-1 w-1 rounded-full bg-accent-2/80 sm:block"
               animate={{ y: [0, 12, 0], opacity: [0.2, 0.9, 0.2] }}
               transition={{ duration: 5.5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
             />
