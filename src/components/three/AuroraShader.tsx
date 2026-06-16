@@ -50,7 +50,7 @@ const fragmentShader = /* glsl */ `
   float fbm(vec2 p){
     float v = 0.0;
     float a = 0.5;
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < 4; i++) {
       v += a * snoise(p);
       p *= 2.0;
       a *= 0.5;
@@ -62,27 +62,28 @@ const fragmentShader = /* glsl */ `
     float aspect = uRes.x / max(uRes.y, 1.0);
     vec2 p = vec2((vUv.x - 0.5) * aspect, vUv.y - 0.5) * 2.4;
 
-    float t = uTime * 0.05;
+    float t = uTime * 0.03;
 
-    // domain warp for organic flow
+    // domain warp for organic, dreamy flow
     vec2 q = vec2(fbm(p + vec2(0.0, t)), fbm(p + vec2(5.2, -t)));
     vec2 r = vec2(fbm(p + 1.7 * q + vec2(1.7 + t * 0.3, 9.2)),
                   fbm(p + 1.7 * q + vec2(8.3, 2.8 - t * 0.4)));
-
-    float n = fbm(p + 2.2 * r + uMouse * 0.4);
+    float n = fbm(p + 2.0 * r + uMouse * 0.35);
     n = n * 0.5 + 0.5;
 
-    // palette: deep base -> dark red -> amber highlight
-    vec3 deep  = vec3(0.035, 0.035, 0.045);
-    vec3 red   = vec3(0.62, 0.10, 0.10);
-    vec3 amber = vec3(0.98, 0.64, 0.09);
+    // calming northern-lights palette: deep night -> teal -> aqua -> soft violet
+    vec3 deep   = vec3(0.02, 0.035, 0.055);
+    vec3 teal   = vec3(0.05, 0.52, 0.50);
+    vec3 aqua   = vec3(0.16, 0.78, 0.80);
+    vec3 violet = vec3(0.42, 0.32, 0.72);
 
-    vec3 col = mix(deep, red, smoothstep(0.25, 0.6, n));
-    col = mix(col, amber, smoothstep(0.62, 0.96, n));
+    vec3 col = mix(deep, teal, smoothstep(0.20, 0.55, n));
+    col = mix(col, aqua, smoothstep(0.52, 0.82, n));
+    col = mix(col, violet, smoothstep(0.80, 0.99, n));
 
-    // glow concentration
-    float glow = pow(smoothstep(0.45, 1.0, n), 1.6);
-    float alpha = clamp(glow * 0.95, 0.0, 1.0);
+    // soft, airy glow
+    float glow = pow(smoothstep(0.40, 1.0, n), 1.5);
+    float alpha = clamp(glow * 0.78, 0.0, 1.0);
 
     gl_FragColor = vec4(col, alpha);
   }

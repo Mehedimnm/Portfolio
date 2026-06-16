@@ -46,7 +46,7 @@ export function Particles({ count }: Props) {
       </bufferGeometry>
       <pointsMaterial
         size={0.02}
-        color="#fde2b8"
+        color="#d8f3ff"
         transparent
         opacity={0.5}
         sizeAttenuation

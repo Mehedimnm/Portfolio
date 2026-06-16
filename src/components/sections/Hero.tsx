@@ -106,7 +106,7 @@ export function Hero() {
           <motion.div
             animate={{ y: [0, -16, 0] }}
             transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-            className="relative"
+            className="relative aspect-square w-full"
           >
             {/* ── Gorgeous decorations around the portrait ───────────── */}
             {/* Pulsing aura */}
@@ -141,12 +141,6 @@ export function Hero() {
               transition={{ duration: 44, repeat: Infinity, ease: "linear" }}
             />
 
-            {/* Thin solid ring */}
-            <div
-              aria-hidden
-              className="absolute left-1/2 top-1/2 aspect-square w-[104%] -translate-x-1/2 -translate-y-1/2 rounded-full border border-white/5"
-            />
-
             {/* Orbiting glowing dots */}
             <motion.div
               aria-hidden
@@ -179,23 +173,25 @@ export function Hero() {
               animate={{ y: [0, 12, 0], opacity: [0.2, 0.9, 0.2] }}
               transition={{ duration: 5.5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
             />
-            {/* Portrait — background masked away so it melts into the page */}
-            <Image
-              src={site.profileImage}
-              alt={site.name}
-              width={560}
-              height={680}
-              priority
-              className="relative h-auto w-full select-none object-contain"
-              style={{
-                WebkitMaskImage:
-                  "radial-gradient(115% 115% at 50% 42%, #000 52%, transparent 78%), linear-gradient(to bottom, #000 60%, transparent 96%)",
-                maskImage:
-                  "radial-gradient(115% 115% at 50% 42%, #000 52%, transparent 78%), linear-gradient(to bottom, #000 60%, transparent 96%)",
-                WebkitMaskComposite: "source-in",
-                maskComposite: "intersect",
-              }}
-            />
+            {/* Portrait — round (clipped) so no square flash on load; soft edge + bottom fade */}
+            <div className="absolute inset-0 overflow-hidden rounded-full">
+              <Image
+                src={site.profileImage}
+                alt={site.name}
+                fill
+                priority
+                sizes="(max-width: 768px) 80vw, 380px"
+                className="select-none object-cover [object-position:50%_18%]"
+                style={{
+                  WebkitMaskImage:
+                    "radial-gradient(circle closest-side at 50% 50%, #000 94%, transparent 100%), linear-gradient(to bottom, #000 82%, transparent 99%)",
+                  maskImage:
+                    "radial-gradient(circle closest-side at 50% 50%, #000 94%, transparent 100%), linear-gradient(to bottom, #000 82%, transparent 99%)",
+                  WebkitMaskComposite: "source-in",
+                  maskComposite: "intersect",
+                }}
+              />
+            </div>
 
             {/* Floating badge */}
             <motion.div
